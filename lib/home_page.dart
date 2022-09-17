@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-//import 'package:split_view/split_view.dart';
+
+import 'common/widgets/loader.dart';
+import 'models/product.dart';
+import 'screens/searched_product.dart';
+import 'services/search_services.dart';
+import 'util/myappbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,75 +15,81 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  Icon customIcon = const Icon(
-    Icons.search,
-    color: Colors.black,
-    size: 28,
-  );
-  Widget customSearchBar = const Text('   ');
+  List<Product>? products;
+  final SearchServices searchServices = SearchServices();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSearchedProduct();
+  }
+
+  fetchSearchedProduct() async {
+    products = await searchServices.fetchAllProducts(context: context);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: customSearchBar,
-        backgroundColor: Colors.grey,
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                if (customIcon.icon == Icons.search) {
-                  customIcon = const Icon(Icons.cancel);
-                  customSearchBar = const ListTile(
-                    leading: Icon(
-                      Icons.search,
-                      color: Colors.black,
-                      size: 28,
-                    ),
-                    title: TextField(
-                      decoration: InputDecoration(
-                          hintText: '                  ',
-                          hintStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic),
-                          border: InputBorder.none),
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                  );
-                } else {
-                  customIcon = const Icon(
-                    Icons.search,
-                    color: Colors.black,
-                    size: 28,
-                  );
-                  customSearchBar = const Text('   ');
-                }
-              });
-            },
-            icon: customIcon,
-            color: Colors.black,
-          ),
-          IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.notifications_none_outlined,
-                  color: Colors.black, size: 28)),
-          IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.email_outlined, color: Colors.black, size: 28)),
-          IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.favorite, color: Colors.black, size: 28)),
-        ],
-        centerTitle: true,
-      ),
+      appBar: MyAppBar(),
       body: LayoutBuilder(builder: (context, constraints) {
         return Container(
           child: Column(
             children: [
+              Container(
+                color: Colors.pink[50],
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(25, 35, 15, 15),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.library_add_check_outlined,
+                            color: Colors.black, size: 50),
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.library_add_check_outlined,
+                            color: Colors.black, size: 50),
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.library_add_check_outlined,
+                            color: Colors.black, size: 50),
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.library_add_check_outlined,
+                            color: Colors.black, size: 50),
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.library_add_check_outlined,
+                            color: Colors.black, size: 50),
+                        color: Colors.black,
+                      )
+                    ],
+                  ),
+                ),
+              ),
               Expanded(
                 flex: 4,
                 child: Stack(
@@ -87,24 +98,9 @@ class _HomePage extends State<HomePage> {
                     Container(
                       color: Colors.pink[50],
                       child: Padding(
-                        padding: const EdgeInsets.all(50.0),
+                        padding: const EdgeInsets.fromLTRB(50, 40, 15, 0),
                         child: Column(
                           children: [
-                            Row(
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                Icon(Icons.library_add_check_outlined,
-                                    color: Colors.black, size: 50),
-                                Icon(Icons.library_add_check_outlined,
-                                    color: Colors.black, size: 50),
-                                Icon(Icons.library_add_check_outlined,
-                                    color: Colors.black, size: 50),
-                                Icon(Icons.library_add_check_outlined,
-                                    color: Colors.black, size: 50),
-                                Icon(Icons.library_add_check_outlined,
-                                    color: Color.fromRGBO(0, 0, 0, 1), size: 50)
-                              ],
-                            ),
                             Row(
                               children: [
                                 SizedBox(
@@ -140,23 +136,19 @@ class _HomePage extends State<HomePage> {
                                     /// Add the sample image file into the images folder
                                     children: [
                                       Image.asset(
-                                        'assets/3_aranhas.jpg',
+                                        'assets/sexy-brunette-in-lingerie.jpg',
                                         fit: BoxFit.cover,
                                       ),
                                       Image.asset(
-                                        'assets/aranha_coffe.jpg',
+                                        'assets/underwear-kitchen.jpg',
                                         fit: BoxFit.cover,
                                       ),
                                       Image.asset(
-                                        'assets/aranha1.jpg',
+                                        'assets/underwear-on-gray.jpg',
                                         fit: BoxFit.cover,
                                       ),
                                       Image.asset(
-                                        'assets/espetacular.jpg',
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Image.asset(
-                                        'assets/spider_game.jpg',
+                                        'assets/beautiful-woman-body-in-lingerie.jpg',
                                         fit: BoxFit.cover,
                                       ),
                                     ],
@@ -179,81 +171,27 @@ class _HomePage extends State<HomePage> {
                 width: constraints.maxHeight,
                 height: 255,
                 child: Padding(
-                  padding: const EdgeInsets.all(40.0),
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Column(
-                        /* Item 1 */
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: const AssetImage("assets/principal.jpg"),
-                                fit: BoxFit.cover,
-                                colorFilter: ColorFilter.mode(
-                                  Colors.black.withOpacity(0.1),
-                                  BlendMode.darken,
-                                ),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: products == null
+                      ? const Loader()
+                      : Column(
+                          children: [
+                            const SizedBox(height: 10),
+                            Container(
+                              height: 200,
+                              width: 180,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: products!.length,
+                                itemBuilder: (context, index) {
+                                  return SearchedProduct(
+                                    product: products![index],
+                                  );
+                                },
                               ),
                             ),
-                            height: 125,
-                            width: 100,
-                          ),
-                          const Text("Conjunto Pandora"),
-                          const Text("P, M, G, EX"),
-                        ],
-                      ),
-                      Column(
-                        /* Item 2 */
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/principal.jpg"),
-                                fit: BoxFit.cover,
-                                colorFilter: ColorFilter.mode(
-                                  Colors.black.withOpacity(0.1),
-                                  BlendMode.darken,
-                                ),
-                              ),
-                            ),
-                            height: 125,
-                            width: 100,
-                          ),
-                          Text("Calcinha Tifany"),
-                          Text("G, EX"),
-                        ],
-                      ),
-                      Column(
-                        /* Item 3 */
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/principal.jpg"),
-                                fit: BoxFit.cover,
-                                colorFilter: ColorFilter.mode(
-                                  Colors.black.withOpacity(0.1),
-                                  BlendMode.darken,
-                                ),
-                              ),
-                            ),
-                            height: 125,
-                            width: 100,
-                          ),
-                          Text("Body Letícia"),
-                          Text("P, G"),
-                        ],
-                      ),
-                    ],
-                  ),
+                          ],
+                        ),
                 ),
               ),
               SizedBox(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../Autenticador.dart';
-import '../services/auth_service.dart';
+import '../bottombar.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -45,12 +43,13 @@ class AppWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Autenticador()),
+                              builder: (context) => const BottomBar()),
                         );
                       },
                       child: const Text("Home"),
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.purple, onPrimary: Colors.white),
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.purple),
                     ),
                   ]),
             ),

@@ -1,45 +1,130 @@
-import 'package:firebase_auth/firebase_auth.dart' as auth;
-import '../models/user_model.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../bottombar.dart';
+import '../constants/error_handling.dart';
+import '../constants/global_variables.dart';
+import '../constants/utils.dart';
+import '../models/user.dart';
+import '../providers/user_provider.dart';
 
 class AuthService {
-  final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+  // sign up user
+  void signUpUser({
+    required BuildContext context,
+    required String email,
+    required String password,
+    required String name,
+  }) async {
+    try {
+      User user = User(
+        id: '',
+        name: name,
+        password: password,
+        email: email,
+        address: '',
+        type: '',
+        token: '',
+        cart: [],
+      );
 
-  User? _userFromFirebase(auth.User? user) {
-    if (user == null) {
-      return null;
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/signup'),
+        body: user.toJson(),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(
+            context,
+            'Account created! Login with the same credentials!',
+          );
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
     }
-    return User(user.uid, user.email);
   }
 
-  Stream<User?>? get user {
-    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
+  // sign in user
+  void signInUser({
+    required BuildContext context,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/signin'),
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          Provider.of<UserProvider>(context, listen: false).setUser(res.body);
+          await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const BottomBar()),
+          );
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 
-  Future<User?> signInWithEmailAndPassword(
-    String email,
-    String password,
+  // get user data
+  void getUserData(
+    BuildContext context,
   ) async {
-    final credential = await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
 
-    return _userFromFirebase(credential.user);
-  }
+      if (token == null) {
+        prefs.setString('x-auth-token', '');
+      }
 
-  Future<User?> createUserWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
-    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+      var tokenRes = await http.post(
+        Uri.parse('$uri/tokenIsValid'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': token!
+        },
+      );
 
-    return _userFromFirebase(credential.user);
-  }
+      var response = jsonDecode(tokenRes.body);
 
-  Future<void> signOut() async {
-    return await _firebaseAuth.signOut();
+      if (response == true) {
+        http.Response userRes = await http.get(
+          Uri.parse('$uri/'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token
+          },
+        );
+
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.setUser(userRes.body);
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 }
