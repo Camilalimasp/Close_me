@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../common/widgets/custom_button.dart';
 import '../common/widgets/custom_textfield.dart';
-import '../constants/global_variables.dart';
+import '../constants/utils.dart';
 import '../models/product.dart';
 import '../services/auth_service.dart';
 import '../util/myappbar.dart';
@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void signInUser() {
+  signInUser() {
     authService.signInUser(
       context: context,
       email: emailController.text,
@@ -62,16 +62,16 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           ListTile(
             tileColor: auth == Auth.signup
-                ? GlobalVariables.backgroundColor
-                : GlobalVariables.greyBackgroundCOlor,
+                ? Utils.backgroundColor
+                : Utils.greyBackgroundCOlor,
             title: const Text(
-              'Create Account',
+              'Criar Conta',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
             leading: Radio(
-              activeColor: GlobalVariables.secondaryColor,
+              activeColor: Utils.secondaryColor,
               value: Auth.signup,
               groupValue: auth,
               onChanged: (Auth? val) {
@@ -84,14 +84,14 @@ class _LoginScreenState extends State<LoginScreen> {
           if (auth == Auth.signup)
             Container(
               padding: const EdgeInsets.all(8),
-              color: GlobalVariables.backgroundColor,
+              color: Utils.backgroundColor,
               child: Form(
                 key: signUpFormKey,
                 child: Column(
                   children: [
                     CustomTextField(
                       controller: nameController,
-                      hintText: 'Name',
+                      hintText: 'Nome',
                     ),
                     const SizedBox(height: 10),
                     CustomTextField(
@@ -101,11 +101,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 10),
                     CustomTextField(
                       controller: passwordController,
-                      hintText: 'Password',
+                      hintText: 'Senha',
                     ),
                     const SizedBox(height: 10),
                     CustomButton(
-                      text: 'Sign Up',
+                      text: 'Inscrever-se',
                       onTap: () {
                         if (signUpFormKey.currentState!.validate()) {
                           signUpUser();
@@ -118,16 +118,16 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ListTile(
             tileColor: auth == Auth.signin
-                ? GlobalVariables.backgroundColor
-                : GlobalVariables.greyBackgroundCOlor,
+                ? Utils.backgroundColor
+                : Utils.greyBackgroundCOlor,
             title: const Text(
-              'Sign-In.',
+              'Entrar.',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
             leading: Radio(
-              activeColor: GlobalVariables.secondaryColor,
+              activeColor: Utils.secondaryColor,
               value: Auth.signin,
               groupValue: auth,
               onChanged: (Auth? val) {
@@ -140,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (auth == Auth.signin)
             Container(
               padding: const EdgeInsets.all(8),
-              color: GlobalVariables.backgroundColor,
+              color: Utils.backgroundColor,
               child: Form(
                 key: signInFormKey,
                 child: Column(
@@ -152,11 +152,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 10),
                     CustomTextField(
                       controller: passwordController,
-                      hintText: 'Password',
+                      hintText: 'Senha',
                     ),
                     const SizedBox(height: 10),
                     CustomButton(
-                      text: 'Sign In',
+                      text: 'Entrar',
                       onTap: () {
                         if (signInFormKey.currentState!.validate()) {
                           signInUser();

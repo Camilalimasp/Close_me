@@ -1,17 +1,23 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:close_me/screens/cart_screen.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 
 import '../common/widgets/custom_button.dart';
 import '../models/product.dart';
+import '../models/user.dart';
 import '../services/product_details_services.dart';
 import '../util/myappbar.dart';
 
 class ProductDetailScreen extends StatefulWidget {
+  static const String routeName = '/product-details';
   final Product product;
+  final User user;
+
   const ProductDetailScreen({
     Key? key,
     required this.product,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -32,6 +38,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       context: context,
       product: widget.product,
     );
+  }
+
+  void goToCart() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const CartScreen()));
   }
 
   @override
@@ -64,45 +75,58 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               color: Colors.white,
               height: 5,
             ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: RichText(
-                    text: TextSpan(
-                      text: ' ',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'R\$${widget.product.price}',
-                          style: const TextStyle(
-                            fontSize: 22,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
+            Container(
+              child: Column(children: [
+                Row(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: RichText(
+                      text: TextSpan(
+                        text: ' ',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
+                        children: [
+                          TextSpan(
+                            text: 'R\$${widget.product.price}',
+                            style: const TextStyle(
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                FavoriteButton(
-                  isFavorite: true,
-                  // iconDisabledColor: Colors.white,
-                  valueChanged: (_isFavorite) {},
-                ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 20,
-                horizontal: 10,
-              ),
-              child: Text(
-                widget.product.name,
-                style: const TextStyle(
-                  fontSize: 15,
-                ),
-              ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(240, 0, 0, 0),
+                    child: FavoriteButton(
+                      isFavorite: false,
+                      // iconDisabledColor: Colors.white,
+                      valueChanged: (_isFavorite) {},
+                    ),
+                  ),
+                ]),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 10,
+                      ),
+                      child: Text(
+                        widget.product.name,
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ]),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -116,7 +140,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: Column(
               children: [
                 Icon(Icons.account_circle_outlined),
-                Text("Fabio de Almeida"),
+                Text(widget.user.name != "" ? widget.user.name : ""),
+                Text(widget.user.email != "" ? widget.user.email : ""),
               ],
             )),
             const SizedBox(height: 10),
@@ -124,22 +149,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               color: Colors.white,
               height: 5,
             ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: CustomButton(
-                    text: 'Finalizar Compra',
-                    onTap: addToCart,
-                    color: const Color.fromRGBO(254, 216, 19, 1),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: CustomButton(
-                    text: '+ Adicionar ao Carrinho',
-                    onTap: addToCart,
-                    color: const Color.fromRGBO(254, 216, 19, 1),
-                  ),
-                ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: CustomButton(
+                text: 'Visualizar Carrinho',
+                onTap: goToCart,
+                color: Colors.grey,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: CustomButton(
+                text: '+ Adicionar ao Carrinho',
+                onTap: addToCart,
+                color: Colors.grey,
+              ),
+            ),
           ],
         ),
       ),

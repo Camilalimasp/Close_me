@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants/error_handling.dart';
-import '../constants/global_variables.dart';
 import '../constants/utils.dart';
 import '../models/product.dart';
 import '../models/user.dart';
 import '../providers/user_provider.dart';
+import '../screens/login_screen.dart';
 
 class ProductDetailsServices {
   void addToCart({
@@ -18,6 +18,15 @@ class ProductDetailsServices {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     try {
+      if (userProvider.user.name == "") {
+        showSnackBar(context, "Faça o seu login para continuar!");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+        return;
+      }
+
       http.Response res = await http.post(
         Uri.parse('$uri/api/add-to-cart'),
         headers: {
@@ -26,6 +35,7 @@ class ProductDetailsServices {
         },
         body: jsonEncode({
           'id': product.id!,
+          'userId': userProvider.user.id,
         }),
       );
 
@@ -36,6 +46,7 @@ class ProductDetailsServices {
           User user =
               userProvider.user.copyWith(cart: jsonDecode(res.body)['cart']);
           userProvider.setUserFromModel(user);
+          showSnackBar(context, "Produto adicionado!");
         },
       );
     } catch (e) {

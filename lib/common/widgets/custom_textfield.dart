@@ -27,14 +27,14 @@ class CustomTextField extends StatelessWidget {
           ))),
       validator: (val) {
         if (val == null || val.isEmpty) {
-          return 'Enter your $hintText';
+          return 'Insira o seu $hintText';
         }
         return null;
       },
       maxLines: maxLines,
-      obscureText: hintText == 'Password' ? true : false,
-      enableSuggestions: hintText == 'Password' ? false : true,
-      autocorrect: hintText == 'Password' ? false : true,
+      obscureText: hintText == 'Senha' ? true : false,
+      enableSuggestions: hintText == 'Senha' ? false : true,
+      autocorrect: hintText == 'Senha' ? false : true,
     );
   }
 }

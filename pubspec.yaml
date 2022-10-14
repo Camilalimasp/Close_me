@@ -40,6 +40,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   badges: ^2.0.3
   favorite_button: ^0.0.4
+  pay: ^1.0.11
   #flutter_image_slideshow: ^0.1.2
 
 dev_dependencies:
@@ -91,3 +92,5 @@ flutter:
   assets:
     - assets/
     - assets/produtos/
+    - assets/applepay.json
+    - assets/gpay.json

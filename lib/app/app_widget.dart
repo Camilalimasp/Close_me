@@ -7,8 +7,8 @@ class AppWidget extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ShaderMask(
+    return Scaffold(
+      body: ShaderMask(
         shaderCallback: (bounds) => LinearGradient(
           colors: [Colors.black38, Colors.black87],
           begin: Alignment.center,

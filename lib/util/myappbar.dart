@@ -78,12 +78,6 @@ class _HomePage extends State<MyAppBar> {
               ),
             ),
           ),
-          Container(
-            color: Colors.transparent,
-            height: 42,
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            child: const Icon(Icons.mic, color: Colors.black, size: 25),
-          ),
           IconButton(
               onPressed: () {},
               icon: Icon(Icons.notifications_none_outlined,

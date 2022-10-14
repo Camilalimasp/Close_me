@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'app/app_widget.dart';
 import 'providers/user_provider.dart';
+import 'router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: AppWidget(),
+      onGenerateRoute: (settings) => generateRoute(settings),
     );
   }
 }

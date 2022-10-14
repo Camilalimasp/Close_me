@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../common/widgets/loader.dart';
 import '../models/product.dart';
+import '../providers/user_provider.dart';
 import '../services/search_services.dart';
 import '../util/myappbar.dart';
 import 'searched_product.dart';
@@ -36,6 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>().user;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -52,6 +55,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (context, index) {
                         return SearchedProduct(
                           product: products![index],
+                          user: user,
                         );
                       }),
                 ),

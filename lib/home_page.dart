@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:provider/provider.dart';
 
 import 'common/widgets/loader.dart';
 import 'models/product.dart';
+import 'providers/user_provider.dart';
 import 'screens/searched_product.dart';
 import 'services/search_services.dart';
 import 'util/myappbar.dart';
 
 class HomePage extends StatefulWidget {
+  static const String routeName = '/home';
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -31,6 +34,7 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>().user;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MyAppBar(),
@@ -91,20 +95,14 @@ class _HomePage extends State<HomePage> {
                 ),
               ),
               Expanded(
-                flex: 4,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
+                flex: 2,
+                child:
                     Container(
                       color: Colors.pink[50],
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(50, 40, 15, 0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(
-                                  child: ImageSlideshow(
+                        child: Row(
+                              children: [ ImageSlideshow(
                                     /// Width of the [ImageSlideshow].
                                     width: 290,
 
@@ -153,23 +151,18 @@ class _HomePage extends State<HomePage> {
                                       ),
                                     ],
                                   ),
-                                ),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
                     ),
-                  ],
-                ),
+                    ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Container(
                 color: Colors.pink[50],
                 width: constraints.maxHeight,
-                height: 255,
+                height: 250,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: products == null
@@ -186,6 +179,7 @@ class _HomePage extends State<HomePage> {
                                 itemBuilder: (context, index) {
                                   return SearchedProduct(
                                     product: products![index],
+                                    user: user,
                                   );
                                 },
                               ),
@@ -195,10 +189,10 @@ class _HomePage extends State<HomePage> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
               Container(
-                height: 50,
+                height: 25,
                 color: Colors.pink[50],
               ),
             ],

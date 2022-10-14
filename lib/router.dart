@@ -1,25 +1,14 @@
+import 'package:close_me/home_page.dart';
 import 'package:close_me/screens/product_details_screen.dart';
 import 'package:close_me/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'models/product.dart';
+import 'models/user.dart';
+import 'screens/address_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
-    /*case AddProductScreen.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const AddProductScreen(),
-      );
-
-    case CategoryDealsScreen.routeName:
-      var category = routeSettings.arguments as String;
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => CategoryDealsScreen(
-          category: category,
-        ),
-      );*/
     case SearchScreen.routeName:
       var searchQuery = routeSettings.arguments as String;
       return MaterialPageRoute(
@@ -28,15 +17,22 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           searchQuery: searchQuery,
         ),
       );
-    /*case ProductDetailScreen.routeName:
+    case HomePage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const HomePage(),
+      );
+    case ProductDetailScreen.routeName:
       var product = routeSettings.arguments as Product;
+      var user = routeSettings.arguments as User;
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => ProductDetailScreen(
           product: product,
+          user: user,
         ),
-      );*/
-    /*case AddressScreen.routeName:
+      );
+    case AddressScreen.routeName:
       var totalAmount = routeSettings.arguments as String;
       return MaterialPageRoute(
         settings: routeSettings,
@@ -44,7 +40,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           totalAmount: totalAmount,
         ),
       );
-    case OrderDetailScreen.routeName:
+    /*case OrderDetailScreen.routeName:
       var order = routeSettings.arguments as Order;
       return MaterialPageRoute(
         settings: routeSettings,
@@ -57,7 +53,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const Scaffold(
           body: Center(
-            child: Text('Screen does not exist!'),
+            child: Text('Tela não existe!'),
           ),
         ),
       );

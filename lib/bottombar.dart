@@ -1,13 +1,15 @@
 import 'package:badges/badges.dart';
+import 'package:close_me/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'home_page.dart';
 import 'providers/user_provider.dart';
 import 'screens/login_screen.dart';
-import 'services/auth_service_old.dart';
+import 'services/auth_service.dart';
 
 class BottomBar extends StatefulWidget {
+  static const String routeName = '/actual-home';
   const BottomBar({Key? key}) : super(key: key);
 
   @override
@@ -18,13 +20,7 @@ class _BottomBarState extends State<BottomBar> {
   int currentIndex = 0;
   final screens = [
     HomePage(),
-    /*ChatPage(),
-    FeedPage(),
-    ProfilePage()*/
-    //Center(child: Text('Home', style: TextStyle(fontSize: 60))),
-    Center(child: Text('Feed', style: TextStyle(fontSize: 60))),
-    Center(child: Text('Chat', style: TextStyle(fontSize: 60))),
-    Center(child: Text('Carrinho', style: TextStyle(fontSize: 60))),
+    CartScreen(),
     LoginScreen(),
   ];
   @override
@@ -53,16 +49,6 @@ class _BottomBarState extends State<BottomBar> {
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
               label: 'Home',
-              backgroundColor: Colors.blue,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.image_outlined),
-              label: 'Feed',
-              backgroundColor: Colors.red,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.library_add_check_outlined),
-              label: 'Chat',
               backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(

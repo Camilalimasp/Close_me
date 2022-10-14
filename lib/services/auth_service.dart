@@ -4,12 +4,11 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../bottombar.dart';
 import '../constants/error_handling.dart';
-import '../constants/global_variables.dart';
 import '../constants/utils.dart';
 import '../models/user.dart';
 import '../providers/user_provider.dart';
+import '../screens/orders_screen.dart';
 
 class AuthService {
   // sign up user
@@ -45,7 +44,7 @@ class AuthService {
         onSuccess: () {
           showSnackBar(
             context,
-            'Account created! Login with the same credentials!',
+            'Conta criada! Faça login com as mesmas credenciais!',
           );
         },
       );
@@ -80,7 +79,7 @@ class AuthService {
           await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const BottomBar()),
+            MaterialPageRoute(builder: (context) => const OrdersScreen()),
           );
         },
       );

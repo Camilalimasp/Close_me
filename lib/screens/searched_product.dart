@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
+import '../models/user.dart';
 import 'product_details_screen.dart';
 
 class SearchedProduct extends StatelessWidget {
   final Product product;
+  final User user;
   const SearchedProduct({
     Key? key,
     required this.product,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -24,13 +27,15 @@ class SearchedProduct extends StatelessWidget {
                     width: 100,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProductDetailScreen(
-                                    product: product,
-                                  )),
-                        );
+                        if (product.quantity > 0)
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProductDetailScreen(
+                                      product: product,
+                                      user: user,
+                                    )),
+                          );
                       },
                       child: Image.network(product.images[0]),
                     ),
@@ -56,16 +61,28 @@ class SearchedProduct extends StatelessWidget {
                       maxLines: 2,
                     ),
                   ),
-                  Container(
-                    width: 100,
-                    child: const Text(
-                      'In Stock',
-                      style: TextStyle(
-                        color: Colors.teal,
+                  if (product.quantity > 0)
+                    Container(
+                      width: 100,
+                      child: const Text(
+                        'Em estoque',
+                        style: TextStyle(
+                          color: Colors.teal,
+                        ),
+                        maxLines: 2,
                       ),
-                      maxLines: 2,
                     ),
-                  ),
+                  if (product.quantity == 0)
+                    Container(
+                      width: 100,
+                      child: const Text(
+                        'Indisponível',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                        maxLines: 2,
+                      ),
+                    ),
                 ],
               ),
             ],

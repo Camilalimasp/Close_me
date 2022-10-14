@@ -15,7 +15,7 @@ authRouter.post("/api/signup", async (req, res) => {
     if (existingUser) {
       return res
         .status(400)
-        .json({ msg: "User with same email already exists!" });
+        .json({ msg: "Já existe um usuário com o mesmo e-mail!" });
     }
     
     const hashedPassword = await bcryptjs.hash(password, 8);
@@ -41,7 +41,7 @@ authRouter.post("/api/insert/product", async (req, res) => {
     if (existingProduct) {
       return res
         .status(400)
-        .json({ msg: "Product with same name already exists!" });
+        .json({ msg: "O produto com o mesmo nome já existe!" });
     }
 
     let product = new Product({
@@ -64,12 +64,12 @@ authRouter.post("/api/signin", async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ msg: "User with this email does not exist!" });
+        .json({ msg: "O usuário com este e-mail não existe!" });
     }
 
     const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: "Incorrect password." });
+      return res.status(400).json({ msg: "Senha incorreta." });
     }
 
     const token = jwt.sign({ id: user._id }, "passwordKey");
